@@ -26,16 +26,24 @@ data = content.read()
 # parse it as json
 jsonData = json.loads(data.decode('utf-8-sig'))
 
-limitForStart = jsonData['recordsFiltered']
+
+# the csv file
+f = open('mf4.csv', 'w')
 
 # for every element 
 # print the program code and ranking info
-# TODO print info to a csv file
+# to the csv file
+
 arr_len = len(jsonData['data'])
 for i in range(arr_len):
 	soup = BeautifulSoup(jsonData['data'][i][1], "html.parser")
 	progCode = soup.find("a")
 	soup = BeautifulSoup(jsonData['data'][i][19], "html.parser")
 	ranking = soup.find("font")
-	print("%s:%s" % (progCode.text, ranking.text))
+#	print("%s:%s" % (progCode.text, ranking.text))
+	# write to the csv file
+	f.write(progCode.text + "," + ranking.text)
+	f.write("\n")
+	
+f.close()
 
